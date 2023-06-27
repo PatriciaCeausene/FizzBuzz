@@ -1,7 +1,7 @@
 // This is our main function
 import * as readline from 'readline';
 
-function fizzbuzz(upperLimit:number, flag3:boolean, flag5:boolean, flag7:boolean, flag11:boolean, flag13:boolean, flag17:boolean): void {
+function fizzbuzz(upperLimit:number, flag3:boolean, flag5:boolean, flag7:boolean, flag11:boolean, flag13:boolean, flag17:boolean, dictionaryRules: {[key: number]: string}): void {
     console.log("Hello, World!");
     // Put your code here...
     for(let i = 1; i <= upperLimit; i++) {
@@ -55,6 +55,19 @@ function fizzbuzz(upperLimit:number, flag3:boolean, flag5:boolean, flag7:boolean
                     message += "Bang";
                 }
             }
+
+            Object.keys(dictionaryRules).forEach((key) => {
+                const x = parseInt(key);
+                // @ts-ignore
+                if(i % x === 0) {
+                    if(reverse === true) {
+                        message = dictionaryRules[x] + message;
+                    } else {
+                        message += dictionaryRules[x];
+                    }
+                }
+            });
+
             if (message === "") {
                 message += i;
             }
@@ -69,9 +82,8 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-rl.question('Insert a number ', (answer) => {
+rl.question('Insert a number limit, which rules you want to keep,0 anf the new rules (number, word) ', (answer) => {
     let args = answer.split(" ");
-    let myRecord:Record<number,boolean> = {};
     let limit = parseInt(args[0]);
     let flag3 = false;
     let flag5 = false;
@@ -79,28 +91,39 @@ rl.question('Insert a number ', (answer) => {
     let flag11 = false;
     let flag13 = false;
     let flag17 = false;
-    for (let i = 1; i < args.length; i++) {
+    let i;
+    for (i = 1; i < args.length; i++) {
         let ruleNo:number = parseInt(args[i]);
-        if(ruleNo == 3) {
+        if (ruleNo === 0) {
+            break;
+        }
+        if(ruleNo === 3) {
             flag3 = true;
         }
-        if(ruleNo == 5) {
+        if(ruleNo === 5) {
             flag5 = true;
         }
-        if(ruleNo == 7) {
+        if(ruleNo === 7) {
             flag7 = true;
         }
-        if(ruleNo == 11) {
+        if(ruleNo === 11) {
             flag11 = true;
         }
-        if(ruleNo == 13) {
+        if(ruleNo === 13) {
             flag13 = true;
         }
-        if(ruleNo == 17) {
+        if(ruleNo === 17) {
             flag17 = true;
         }
     }
-    fizzbuzz(limit, flag3, flag5, flag7, flag11, flag13, flag17);
+    let dictionaryRules:Record<number,string> = {};
+    i++;
+    for (i; i < args.length; i++) {
+        let ruleNo:number = parseInt(args[i]);
+        i++;
+        dictionaryRules[ruleNo] =  args[i];
+    }
+
+    fizzbuzz(limit, flag3, flag5, flag7, flag11, flag13, flag17,dictionaryRules);
     rl.close();
 });
-//fizzbuzz();
