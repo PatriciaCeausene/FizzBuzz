@@ -6,72 +6,68 @@ function fizzbuzz(upperLimit:number, dictionaryFlags: {[key: number]: boolean}, 
     // Put your code here...
     for (let currNumber = 1; currNumber <= upperLimit; currNumber++) {
         let message: string = "";
-        let multiple11: boolean = false;
         let reverse: boolean = false;
+        let multiple11: boolean = false;
 
         if (dictionaryFlags[17] && currNumber % 17 === 0) {
             reverse = true;
         }
+
         if (dictionaryFlags[11] && currNumber % 11 === 0) {
-            if (dictionaryFlags[13] && currNumber % 13 == 0) {
-                if (reverse === true) {
-                    message = "Fezz" + message;
-                } else {
-                    message += "Fezz";
-                }
+            multiple11 = true;
+        }
+
+        if (dictionaryFlags[3] && currNumber % 3 === 0 && !multiple11) {
+            if (reverse === true) {
+                message = "Fizz" + message;
+            } else {
+                message += "Fizz";
             }
+        }
+        if (dictionaryFlags[13] && currNumber % 13 === 0) {
+            if (reverse === true) {
+                message = "Fezz" + message;
+            } else {
+                message += "Fezz";
+            }
+        }
+        if (dictionaryFlags[5] && currNumber % 5 === 0 && !multiple11) {
+            if (reverse === true) {
+                message= "Buzz" + message;
+            } else {
+                message += "Buzz";
+            }
+        }
+        if (dictionaryFlags[7] && currNumber % 7 === 0 && !multiple11) {
+            if (reverse === true) {
+                message = "Bang" + message;
+            } else {
+                message += "Bang";
+            }
+        }
+        if (dictionaryFlags[11] && currNumber % 11 === 0) {
             if (reverse === true) {
                 message = "Bong" + message;
             } else {
                 message += "Bong";
             }
-            multiple11 = true;
         }
-        if (multiple11 === false) {
-            if (dictionaryFlags[3] && currNumber % 3 === 0) {
-                if (reverse === true) {
-                    message = "Fizz" + message;
-                } else {
-                    message += "Fizz";
-                }
-            }
-            if (dictionaryFlags[13] && currNumber % 13 === 0) {
-                if (reverse === true) {
-                    message = "Fezz" + message;
-                } else {
-                    message += "Fezz";
-                }
-            }
-            if (dictionaryFlags[5] && currNumber % 5 === 0) {
-                if (reverse === true) {
-                    message= "Buzz" + message;
-                } else {
-                    message += "Buzz";
-                }
-            }
-            if (dictionaryFlags[7] && currNumber % 7 === 0) {
-                if (reverse === true) {
-                    message = "Bang" + message;
-                } else {
-                    message += "Bang";
-                }
-            }
 
-            Object.keys(dictionaryRules).forEach((key) => {
-                const x = parseInt(key);
-                // @ts-ignore
-                if (currNumber % x === 0) {
-                    if (reverse === true) {
-                        message = dictionaryRules[x] + message;
-                    } else {
-                        message += dictionaryRules[x];
-                    }
-                }
-            });
 
-            if (message.length === 0) {
-                message += currNumber;
+        Object.keys(dictionaryRules).forEach((key) => {
+            const x = parseInt(key);
+            // @ts-ignore
+            if (currNumber % x === 0) {
+                if (reverse === true) {
+                    message = dictionaryRules[x] + message;
+                } else {
+                    message += dictionaryRules[x];
+                }
             }
+        });
+
+        if (message.length === 0) {
+            message += currNumber;
         }
         console.log(message);
     }
